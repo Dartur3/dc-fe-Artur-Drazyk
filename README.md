@@ -1,4 +1,4 @@
-# app
+# rick-and-morty-app
 
 ## Project setup
 ```
