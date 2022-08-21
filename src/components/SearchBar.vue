@@ -1,0 +1,120 @@
+<template>
+  <div>
+    <p class="droptxt">search by:</p>
+    <div class="dropdown">
+      <button v-if="buttonClicked.name" v-on:click="toggleContent()" type="button" class="dropbtn static-width">name</button>
+      <button v-else-if="buttonClicked.id" v-on:click="toggleContent()" type="button" class="dropbtn static-width">id</button>
+      <button v-else-if="buttonClicked.episode" v-on:click="toggleContent()" type="button" class="dropbtn static-width">episode</button>
+      <button v-else v-on:click="toggleContent()" type="button" class="dropbtn static-width">select &#9660;</button>
+      <div id="myDropdown" class="dropdown-content">
+        <a href="#" v-on:click="buttonClicked.name = true, buttonClicked.id = false, buttonClicked.episode = false">name</a>
+        <a href="#" v-on:click=" buttonClicked.name = false, buttonClicked.id = true, buttonClicked.episode = false">id</a>
+        <a href="#" v-on:click=" buttonClicked.name = false, buttonClicked.id = false, buttonClicked.episode = true">episode</a>
+      </div>
+    </div>
+    <input type="text" placeholder="input text" class="dropbtn" v-model=input>
+    <button v-on:click="
+    $emit('pass-search-bar-data', { name: buttonClicked.name, id: buttonClicked.id, episode: buttonClicked.episode, input, page }),
+    $emit('initialize-input'),
+    input = ''" type="button" class="droptxt"> execute </button>
+  </div>
+</template>
+
+<script lang="ts">
+
+import { defineComponent } from 'vue';
+
+// close the dropdown menu if the user clicks outside of it
+window.onclick = function (event) {
+  if (!(event.target as HTMLButtonElement).matches('.dropbtn') && document.getElementById("myDropdown")?.classList.contains('show')) {
+    document.getElementById("myDropdown")?.classList.remove('show')
+  }
+}
+
+export default defineComponent({
+
+  name: 'SearchBar',
+  components: {
+  },
+
+  data() {
+    return {
+      page: 1,
+      input: '',
+      buttonClicked: { name: false, id: false, episode: false }
+    }
+  },
+
+  methods: {
+// When the user clicks on the button, toggle between hiding and showing the dropdown content
+    toggleContent() {
+      document.getElementById("myDropdown")?.classList.toggle("show")
+    }
+  }
+});
+
+</script>
+
+<style>
+/* Dropdown Button */
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover,
+.dropbtn:focus {
+  background-color: #2980B9;
+}
+
+.droptxt {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  display: inline-block;
+}
+
+.static-width {
+  width: 94px;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {
+  background-color: #ddd
+}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {
+  display: block;
+}
+</style>
