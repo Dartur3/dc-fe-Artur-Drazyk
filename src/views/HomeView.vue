@@ -1,5 +1,4 @@
 <template>
-
   <button v-if="page > 1" type="button" class="droptxt" v-on:click="setPage(--page)">-</button>
   <button v-else type="button" class="droptxt">-</button>
   <button v-if="resultNames && resultNames.characters.info && page < resultNames.characters.info.count / 20"
@@ -34,9 +33,6 @@
       <button v-if="getFavourites().indexOf(character.id) === -1" class="inline" type="button" v-on:click="addFavourite(character.id)">&#9829;</button>
       <button v-else type="button" class="inline" v-on:click="deleteFavourite(character.id)">X</button>
     </div>
-  </div>
-  <div v-if="getFavourites().length > 0">
-  {{ saveFavourites() }}
   </div>
 </template>
 
@@ -81,23 +77,32 @@ const EPISODE_QUERY = gql`
       }
     }
   `
-var favourites: number[] = reactive([])
+let favourites: number[] = reactive(JSON.parse(localStorage.getItem("storedFavourites")!)) || reactive([])
 
 export function getFavourites() {
   return favourites
 }
 
+function saveFavourites() {
+  if (typeof(Storage) !== "undefined") {
+    localStorage.setItem('storedFavourites', JSON.stringify(favourites))
+  }
+  if (JSON.parse(localStorage.getItem("storedFavourites")!).length == 0){
+    localStorage.removeItem("storedFavourites")
+  }
+}
+
 function addFavourite(id: number) {
   favourites.push(id)
+  saveFavourites()
+
 }
 
 export function deleteFavourite(id: number) {
   favourites.splice(favourites.indexOf(id), 1)
+  saveFavourites()
 }
 
-if (favourites.length == 0 && localStorage.getItem("storedData")) {
-  favourites = favourites.splice(0, 0, JSON.parse(localStorage.getItem("storedData")!))
-}
 
 export default defineComponent({
 
@@ -111,7 +116,6 @@ export default defineComponent({
     return {
       page: 1,
       input: '',
-      favourites: favourites,
       id: { name: '', nameAndEpisodeId: 1 },
       buttonClicked: { name: true, id: false, episode: false },
     }
@@ -144,12 +148,6 @@ export default defineComponent({
       variables.nameId = id
       variables.episodeId = id
     }
-    
-    function saveFavourites() {
-      if (typeof(Storage) !== "undefined") {
-        localStorage.setItem('storedData', JSON.stringify(favourites))
-      }
-    }
 
     return {
       resultNames: resultNames, resultId: resultId, resultEpisode: resultEpisode,
@@ -161,7 +159,7 @@ export default defineComponent({
       addFavourite,
       deleteFavourite,
       getFavourites,
-      saveFavourites
+      saveFavourites,
     }
   },
 
