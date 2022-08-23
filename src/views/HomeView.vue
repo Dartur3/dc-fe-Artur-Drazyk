@@ -35,6 +35,9 @@
       <button v-else type="button" class="inline" v-on:click="deleteFavourite(character.id)">X</button>
     </div>
   </div>
+  <div v-if="getFavourites().length > 0">
+  {{ saveFavourites() }}
+  </div>
 </template>
 
 <script lang="ts">
@@ -78,8 +81,7 @@ const EPISODE_QUERY = gql`
       }
     }
   `
-const favourites = reactive([0])
-favourites.pop()
+var favourites: number[] = reactive([])
 
 export function getFavourites() {
   return favourites
@@ -91,6 +93,10 @@ function addFavourite(id: number) {
 
 export function deleteFavourite(id: number) {
   favourites.splice(favourites.indexOf(id), 1)
+}
+
+if (favourites.length == 0 && localStorage.getItem("storedData")) {
+  favourites = favourites.splice(0, 0, JSON.parse(localStorage.getItem("storedData")!))
 }
 
 export default defineComponent({
@@ -105,6 +111,7 @@ export default defineComponent({
     return {
       page: 1,
       input: '',
+      favourites: favourites,
       id: { name: '', nameAndEpisodeId: 1 },
       buttonClicked: { name: true, id: false, episode: false },
     }
@@ -137,6 +144,12 @@ export default defineComponent({
       variables.nameId = id
       variables.episodeId = id
     }
+    
+    function saveFavourites() {
+      if (typeof(Storage) !== "undefined") {
+        localStorage.setItem('storedData', JSON.stringify(favourites))
+      }
+    }
 
     return {
       resultNames: resultNames, resultId: resultId, resultEpisode: resultEpisode,
@@ -147,7 +160,8 @@ export default defineComponent({
       setNameAndEpisodeId,
       addFavourite,
       deleteFavourite,
-      getFavourites
+      getFavourites,
+      saveFavourites
     }
   },
 
@@ -160,7 +174,7 @@ export default defineComponent({
       this.id.nameAndEpisodeId = parseInt(input)
       this.page = page
     }
-  }
+  },
 });
 
 </script>
