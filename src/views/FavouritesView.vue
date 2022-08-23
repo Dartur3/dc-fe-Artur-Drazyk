@@ -1,14 +1,45 @@
 <template>
   <div>
-    <SearchBar />
+
+    <SearchBar v-on:pass-search-bar-data="passSearchBarData" />
+
     <div v-if="isFavourites()">
+
       <p v-if="error">Something went wrong...</p>
       <p v-else-if="loading">Loading...</p>
-      <div v-else-if="result && result.charactersByIds" v-for="character in result.charactersByIds" :key="character.id">
-        <img :src="`${character.image}`">
-        <p class="inline">{{ character.id }} {{ character.name }}</p>
-        <button type="button" class="inline" v-on:click="removeFavourite(character.id)">X</button>
+
+      <div v-else-if="buttonClicked.name && result && result.charactersByIds" >
+        <div v-for="character in result.charactersByIds" :key="character.id">
+          <div v-if="character.name.indexOf(id.name) !== -1">
+            <img :src="`${character.image}`">
+            <p class="inline">{{ character.id }} {{ character.name }}</p>
+            <button type="button" class="inline" v-on:click="removeFavourite(character.id)">X</button>
+          </div>
+        </div>
       </div>
+
+      <div v-else-if="buttonClicked.id && result && result.charactersByIds" >
+        <div v-for="character in result.charactersByIds" :key="character.id">
+          <div v-if="character.id == id.nameId">
+            <img :src="`${character.image}`">
+            <p class="inline">{{ character.id }} {{ character.name }}</p>
+            <button type="button" class="inline" v-on:click="removeFavourite(character.id)">X</button>
+          </div>
+        </div>
+      </div>
+
+      <div v-else-if="buttonClicked.episode && result && result.charactersByIds" >
+        <div v-for="character in result.charactersByIds" :key="character.id">
+          <div v-for="episodeId in character.episode" :key="episodeId.id">
+            <div v-if="episodeId.id == id.episode">
+              <img :src="`${character.image}`">
+              <p class="inline">{{ character.id }} {{ character.name }}</p>
+              <button type="button" class="inline" v-on:click="removeFavourite(character.id)">X</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -27,6 +58,9 @@ const FAVOURITES_QUERY = gql`
         id
         name
         image
+        episode {
+          id
+        }
       }
     }
   `
@@ -36,6 +70,13 @@ export default defineComponent({
 
   components: {
     SearchBar
+  },
+
+  data() {
+    return {
+      id: { name: '', nameId: 1, episode: 1 },
+      buttonClicked: { name: true, id: false, episode: false },
+    }
   },
 
   setup() {
@@ -63,6 +104,15 @@ export default defineComponent({
 
     removeFavourite(id: number) {
       deleteFavourite(id)
+    },
+
+    passSearchBarData({ name, id, episode, input, page }: any) {
+      this.buttonClicked.name = name
+      this.buttonClicked.id = id
+      this.buttonClicked.episode = episode
+      this.id.name = input
+      this.id.nameId = parseInt(input)
+      this.id.episode = parseInt(input)
     }
   }
 })
