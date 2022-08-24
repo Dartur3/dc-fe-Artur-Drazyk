@@ -12,13 +12,13 @@
 
   <table>
     <tr>
-      <th>image</th>
-      <th>id</th>
-      <th>name</th>
-      <th>gender</th>
-      <th>species</th>
-      <th>last episode</th>
-      <th>favourites</th>
+      <th>Photo</th>
+      <th>Character ID</th>
+      <th>Name</th>
+      <th>Gender</th>
+      <th>Species</th>
+      <th>Last Episode</th>
+      <th>Favourites</th>
     </tr>
 
     <template v-if="buttonClicked.name && resultNames && resultNames.characters.results">
