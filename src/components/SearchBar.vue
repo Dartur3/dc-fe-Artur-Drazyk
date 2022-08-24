@@ -117,4 +117,12 @@ export default defineComponent({
 .show {
   display: block;
 }
+
+.dead {
+    filter: grayscale(100%);
+}
+
+.unknown {
+    filter: blur(5px);
+}
 </style>

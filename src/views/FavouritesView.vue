@@ -1,52 +1,71 @@
 <template>
-  <div>
-    
-    {{setFavouritesPage(page)}}
-    <button v-if="page > 1" type="button" class="droptxt" v-on:click="setFavouritesPage(page-=20)">-</button>
-    <button v-else type="button" class="droptxt">-</button>
-    <button v-if="isFavouritesEnd(page+20)" type="button" class="droptxt" v-on:click="setFavouritesPage(page+=20)">+</button>
-    <button v-else type="button" class="droptxt">+</button>
+  <SearchBar v-on:pass-search-bar-data="passSearchBarData" />
+  <div v-if="isFavourites()">
 
-    <SearchBar v-on:pass-search-bar-data="passSearchBarData" />
+    <div v-once>{{ setFavourites() }}</div>
+    <p v-if="error">Something went wrong...</p>
+    <p v-else-if="loading">Loading...</p>
 
-    <div v-if="isFavourites()">
+    <table>
+      <tr>
+        <th>image</th>
+        <th>id</th>
+        <th>name</th>
+        <th>gender</th>
+        <th>species</th>
+        <th>last episode</th>
+        <th>favourites</th>
+      </tr>
 
-      <p v-if="error">Something went wrong...</p>
-      <p v-else-if="loading">Loading...</p>
+      <template v-if="buttonClicked.name && result && result.charactersByIds" >
+        <tr v-for="character in result.charactersByIds" :key="character.id">
+          <td v-if="character.status == 'Alive'"><img :src="`${character.image}`"></td>
+          <td v-else-if="character.status == 'Dead'"><img class="dead" :src="`${character.image}`"></td>
+          <td v-else-if="character.status == 'unknown'"><img class="unknown" :src="`${character.image}`"></td>
+          <td>{{ character.id }}</td>
+          <td>{{ character.name }}</td>
+          <td>{{ character.gender }}</td>
+          <td>{{ character.species }}</td>
+          <td>{{ character.episode[character.episode.length-1].episode }}</td>
+          <td><button type="button" v-on:click="removeFavourite(character.id)">X</button></td>
+        </tr>
+      </template>
 
-      <div v-else-if="buttonClicked.name && result && result.charactersByIds" >
-        <div v-for="character in result.charactersByIds" :key="character.id">
-          <div v-if="character.name.indexOf(id.name) !== -1">
-            <img :src="`${character.image}`">
-            <p class="inline">{{ character.id }} {{ character.name }}</p>
-            <button type="button" class="inline" v-on:click="removeFavourite(character.id)">X</button>
-          </div>
-        </div>
-      </div>
+      <template v-else-if="buttonClicked.id && result && result.charactersByIds" >
+        <tr v-for="character in result.charactersByIds" :key="character.id">
+          <template v-if="character.id == id.nameAndEpisodeId">
+            <td v-if="character.status == 'Alive'"><img :src="`${character.image}`"></td>
+            <td v-else-if="character.status == 'Dead'"><img class="dead" :src="`${character.image}`"></td>
+            <td v-else-if="character.status == 'unknown'"><img class="unknown" :src="`${character.image}`"></td>
+            <td>{{ character.id }}</td>
+            <td>{{ character.name }}</td>
+            <td>{{ character.gender }}</td>
+            <td>{{ character.species }}</td>
+            <td>{{ character.episode[character.episode.length-1].episode }}</td>
+            <td><button type="button" class="inline" v-on:click="removeFavourite(character.id)">X</button></td>
+          </template>
+        </tr>
+      </template>
 
-      <div v-else-if="buttonClicked.id && result && result.charactersByIds" >
-        <div v-for="character in result.charactersByIds" :key="character.id">
-          <div v-if="character.id == id.nameAndEpisodeId">
-            <img :src="`${character.image}`">
-            <p class="inline">{{ character.id }} {{ character.name }}</p>
-            <button type="button" class="inline" v-on:click="removeFavourite(character.id)">X</button>
-          </div>
-        </div>
-      </div>
+      <template v-else-if="buttonClicked.episode && result && result.charactersByIds" >
+        <tr v-for="character in result.charactersByIds" :key="character.id">
+          <template v-for="episodeId in character.episode" :key="episodeId.id">
+            <template v-if="episodeId.id == id.nameAndEpisodeId">
+              <td v-if="character.status == 'Alive'"><img :src="`${character.image}`"></td>
+              <td v-else-if="character.status == 'Dead'"><img class="dead" :src="`${character.image}`"></td>
+              <td v-else-if="character.status == 'unknown'"><img class="unknown" :src="`${character.image}`"></td>
+              <td>{{ character.id }}</td>
+              <td>{{ character.name }}</td>
+              <td>{{ character.gender }}</td>
+              <td>{{ character.species }}</td>
+              <td>{{ character.episode[character.episode.length-1].episode }}</td>
+              <td><button type="button" class="inline" v-on:click="removeFavourite(character.id)">X</button></td>
+            </template>
+          </template>
+        </tr>
+      </template>
 
-      <div v-else-if="buttonClicked.episode && result && result.charactersByIds" >
-        <div v-for="character in result.charactersByIds" :key="character.id">
-          <div v-for="episodeId in character.episode" :key="episodeId.id">
-            <div v-if="episodeId.id == id.nameAndEpisodeId">
-              <img :src="`${character.image}`">
-              <p class="inline">{{ character.id }} {{ character.name }}</p>
-              <button type="button" class="inline" v-on:click="removeFavourite(character.id)">X</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
+    </table>
   </div>
 </template>
 
@@ -55,8 +74,8 @@
 import gql from 'graphql-tag'
 import { defineComponent, reactive } from 'vue';
 import { useQuery } from '@vue/apollo-composable';
+import favs from '../components/FavouriteFunctions';
 import SearchBar from '../components/SearchBar.vue';
-import { getFavourites, deleteFavourite } from './HomeView.vue';
 
 const FAVOURITES_QUERY = gql`
     query CharactersByIds ($ids: [ID!]!) {
@@ -64,8 +83,12 @@ const FAVOURITES_QUERY = gql`
         id
         name
         image
+        status
+        gender
+        species
         episode {
           id
+          episode
         }
       }
     }
@@ -94,32 +117,28 @@ export default defineComponent({
 
     const { result, loading, error } = useQuery(FAVOURITES_QUERY, variables)
 
-    function setFavouritesPage(page: number) {
-      variables.ids = getFavourites().filter(function (currentPage) { return currentPage >= page && currentPage <= page+19 })
+    function setFavourites() {
+      variables.ids = favs.getFavourites()
     }
 
     return {
       result,
       loading,
       error,
-      setFavouritesPage
+      setFavourites,
+      favs
     }
   },
 
   methods: {
 
     isFavourites() {
-      if (getFavourites().length > 0) return true
-      else return false
-    },
-
-    isFavouritesEnd(page: number) {
-      if (getFavourites().filter(function (currentPage) { return currentPage >= page && currentPage <= page+1 }).length != 0) return true
+      if (favs.getFavourites().length > 0) return true
       else return false
     },
 
     removeFavourite(id: number) {
-      deleteFavourite(id)
+      favs.deleteFavourite(id)
     },
 
     passSearchBarData({ name, id, episode, input }: any) {
