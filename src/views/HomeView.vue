@@ -1,11 +1,14 @@
 <template>
-  <button v-if="page > 1" type="button" class="droptxt" v-on:click="setPage(--page)">-</button>
-  <button v-else type="button" class="droptxt">-</button>
-  <button v-if="resultNames && resultNames.characters.info && page < resultNames.characters.info.count / 20"
-    type="button" class="droptxt" v-on:click="setPage(++page)">+</button>
-  <button v-else type="button" class="droptxt">+</button>
+  
+  <router-link class="dropbtn rounded" style="margin-right: 20px;" to="/favourites">Favourites</router-link>
+  <SearchBar v-on:pass-search-bar-data="passSearchBarData" v-on:initialize-input="setName(id.name), setNameAndEpisodeId(id.nameAndEpisodeId), setPage(page)" style="display: inline-block;"/>
 
-  <SearchBar v-on:pass-search-bar-data="passSearchBarData" v-on:initialize-input="setName(id.name), setNameAndEpisodeId(id.nameAndEpisodeId), setPage(page)" />
+  <div style="display: inline-block;">
+    <button v-if="page > 1" type="button" class="dropbtn" style="border-radius: 10px 0px 0px 10px;" v-on:click="setPage(--page)">	&#9664; </button>
+    <button v-else type="button" class="dropbtn" style="border-radius: 10px 0px 0px 10px;">	&#9664; </button>
+    <button v-if="resultNames && resultNames.characters.info && page < resultNames.characters.info.count / 20" type="button" class="dropbtn" style="border-radius: 0px 10px 10px 0px;" v-on:click="setPage(++page)"> &#9654; </button>
+    <button v-else type="button" class="dropbtn" style="border-radius: 0px 10px 10px 0px;"> &#9654; </button>
+  </div>
 
   <p v-if="errorNames || errorId || errorEpisode">Something went wrong...</p>
   <p v-else-if="loadingNames || loadingId || loadingEpisode">Loading...</p>
@@ -31,8 +34,8 @@
           <td>{{ character.gender }}</td>
           <td>{{ character.species }}</td>
           <td>{{ character.episode[character.episode.length-1].episode }}</td>
-          <td v-if="favs.getFavourites().indexOf(character.id) === -1"><button type="button" v-on:click="favs.addFavourite(character.id)">&#9829;</button></td>
-          <td v-else><button type="button" v-on:click="favs.deleteFavourite(character.id)">X</button></td>
+          <td v-if="favs.getFavourites().indexOf(character.id) === -1"><button type="button" class="dropbtn rounded" v-on:click="favs.addFavourite(character.id)">&#9829;</button></td>
+          <td v-else><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="favs.deleteFavourite(character.id)">X</button></td>
         </tr>
     </template>
 
@@ -45,8 +48,8 @@
       <td>{{ resultId.character.gender }}</td>
       <td>{{ resultId.character.species }}</td>
       <td>{{ resultId.character.episode[resultId.character.episode.length-1].episode }}</td>
-      <td v-if="favs.getFavourites().indexOf(resultId.character.id) === -1"><button type="button" v-on:click="favs.addFavourite(resultId.character.id)">&#9829;</button></td>
-      <td v-else><button type="button" v-on:click="favs.deleteFavourite(resultId.character.id)">X</button></td>
+      <td v-if="favs.getFavourites().indexOf(resultId.character.id) === -1"><button type="button" class="dropbtn rounded" v-on:click="favs.addFavourite(resultId.character.id)">&#9829;</button></td>
+      <td v-else><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="favs.deleteFavourite(resultId.character.id)">X</button></td>
     </tr>
 
     <template v-else-if="buttonClicked.episode && resultEpisode && resultEpisode.episode.characters">
@@ -59,12 +62,18 @@
         <td>{{ character.gender }}</td>
         <td>{{ character.species }}</td>
         <td>{{ character.episode[character.episode.length-1].episode }}</td>
-        <td v-if="favs.getFavourites().indexOf(character.id) === -1"><button type="button" v-on:click="favs.addFavourite(character.id)">&#9829;</button></td>
-        <td v-else><button type="button" v-on:click="favs.deleteFavourite(character.id)">X</button></td>
+        <td v-if="favs.getFavourites().indexOf(character.id) === -1"><button type="button" class="dropbtn rounded" v-on:click="favs.addFavourite(character.id)">&#9829;</button></td>
+        <td v-else><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="favs.deleteFavourite(character.id)">X</button></td>
       </tr>
     </template>
 
   </table>
+
+  <button v-if="page > 1" type="button" class="dropbtn" style="border-radius: 10px 0px 0px 10px; margin-top: 10px;" v-on:click="setPage(--page)">	&#9664; </button>
+  <button v-else type="button" class="dropbtn" style="border-radius: 10px 0px 0px 10px; margin-top: 10px;">	&#9664; </button>
+  <button v-if="resultNames && resultNames.characters.info && page < resultNames.characters.info.count / 20" type="button" class="dropbtn" style="border-radius: 0px 10px 10px 0px; margin-top: 10px;" v-on:click="setPage(++page)"> &#9654; </button>
+  <button v-else type="button" class="dropbtn" style="border-radius: 0px 10px 10px 0px; margin-top: 10px;"> &#9654; </button>
+
 </template>
 
 <script lang="ts">

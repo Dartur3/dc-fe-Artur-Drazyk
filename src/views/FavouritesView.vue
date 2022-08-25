@@ -1,5 +1,6 @@
 <template>
-  <SearchBar v-on:pass-search-bar-data="passSearchBarData" />
+  <router-link class="dropbtn rounded" style="margin-right: 20px;" to="/">Home</router-link>
+  <SearchBar v-on:pass-search-bar-data="passSearchBarData" style="display: inline-block;"/>
   <div v-if="isFavourites()">
 
     <div v-once>{{ setFavourites() }}</div>
@@ -27,7 +28,7 @@
           <td>{{ character.gender }}</td>
           <td>{{ character.species }}</td>
           <td>{{ character.episode[character.episode.length-1].episode }}</td>
-          <td><button type="button" v-on:click="removeFavourite(character.id)">X</button></td>
+          <td><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="removeFavourite(character.id)">X</button></td>
         </tr>
       </template>
 
@@ -42,7 +43,7 @@
             <td>{{ character.gender }}</td>
             <td>{{ character.species }}</td>
             <td>{{ character.episode[character.episode.length-1].episode }}</td>
-            <td><button type="button" class="inline" v-on:click="removeFavourite(character.id)">X</button></td>
+            <td><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="removeFavourite(character.id)">X</button></td>
           </template>
         </tr>
       </template>
@@ -59,7 +60,7 @@
               <td>{{ character.gender }}</td>
               <td>{{ character.species }}</td>
               <td>{{ character.episode[character.episode.length-1].episode }}</td>
-              <td><button type="button" class="inline" v-on:click="removeFavourite(character.id)">X</button></td>
+              <td><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="removeFavourite(character.id)">X</button></td>
             </template>
           </template>
         </tr>

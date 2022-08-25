@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p class="droptxt">search by:</p>
     <div class="dropdown">
       <button v-if="buttonClicked.name" v-on:click="toggleContent()" type="button" class="dropbtn static-width">name</button>
       <button v-else-if="buttonClicked.id" v-on:click="toggleContent()" type="button" class="dropbtn static-width">id</button>
@@ -16,7 +15,7 @@
     <button v-on:click="
     $emit('pass-search-bar-data', { name: buttonClicked.name, id: buttonClicked.id, episode: buttonClicked.episode, input, page }),
     $emit('initialize-input'),
-    input = ''" type="button" class="droptxt"> execute </button>
+    input = ''" type="button" class="dropbtn" style="border-radius: 0px 10px 10px 0px; margin-right: 20px;"> execute </button>
   </div>
 </template>
 
@@ -58,7 +57,7 @@ export default defineComponent({
 <style>
 /* Dropdown Button */
 .dropbtn {
-  background-color: #3498DB;
+  background-color: #11B0C8;
   color: white;
   padding: 16px;
   font-size: 16px;
@@ -69,19 +68,21 @@ export default defineComponent({
 /* Dropdown button on hover & focus */
 .dropbtn:hover,
 .dropbtn:focus {
-  background-color: #2980B9;
+  background-color: #0e889b;
 }
 
 .droptxt {
-  background-color: #3498DB;
+  background-color: #11b0c846;
   color: white;
   padding: 16px;
   font-size: 16px;
-  display: inline-block;
 }
 
 .static-width {
   width: 94px;
+  border-radius: 10px 0px 0px 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /* The container <div> - needed to position the dropdown content */
@@ -123,6 +124,32 @@ export default defineComponent({
 }
 
 .unknown {
-    filter: blur(5px);
+    filter: blur(2px);
+}
+
+.rounded {
+  border-radius: 10px 10px 10px 10px;
+}
+
+img {
+  width: 100px;
+  border-radius: 5px 5px 5px 5px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  border-left-style: none;
+  border-right-style: none;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #e2e2e225;
 }
 </style>
