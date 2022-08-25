@@ -1,5 +1,5 @@
 # rick-and-morty-app
-## Customize configuration
+##
 [Deployed App](https://rickandmortydg.netlify.app/).
 ### Project setup
 ```
