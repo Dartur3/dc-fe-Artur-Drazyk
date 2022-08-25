@@ -12,7 +12,7 @@
 
   <table>
     <tr>
-      <th>Photos</th>
+      <th>Photo</th>
       <th>Character ID</th>
       <th>Name</th>
       <th>Gender</th>
