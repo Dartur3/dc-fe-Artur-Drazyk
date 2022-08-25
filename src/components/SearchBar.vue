@@ -71,6 +71,21 @@ export default defineComponent({
   background-color: #0e889b;
 }
 
+.dropdelbtn {
+  background-color: #FF0F0F;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropdelbtn:hover,
+.dropdelbtn:focus {
+  background-color: #b80e0e
+}
+
 .droptxt {
   background-color: #11b0c846;
   color: white;

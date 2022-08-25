@@ -28,7 +28,7 @@
           <td>{{ character.gender }}</td>
           <td>{{ character.species }}</td>
           <td>{{ character.episode[character.episode.length-1].episode }}</td>
-          <td><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="removeFavourite(character.id)">X</button></td>
+          <td><button type="button" class="dropdelbtn rounded" v-on:click="removeFavourite(character.id)">X</button></td>
         </tr>
       </template>
 
@@ -43,7 +43,7 @@
             <td>{{ character.gender }}</td>
             <td>{{ character.species }}</td>
             <td>{{ character.episode[character.episode.length-1].episode }}</td>
-            <td><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="removeFavourite(character.id)">X</button></td>
+            <td><button type="button" class="dropdelbtn rounded" v-on:click="removeFavourite(character.id)">X</button></td>
           </template>
         </tr>
       </template>
@@ -60,7 +60,7 @@
               <td>{{ character.gender }}</td>
               <td>{{ character.species }}</td>
               <td>{{ character.episode[character.episode.length-1].episode }}</td>
-              <td><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="removeFavourite(character.id)">X</button></td>
+              <td><button type="button" class="dropdelbtn rounded" v-on:click="removeFavourite(character.id)">X</button></td>
             </template>
           </template>
         </tr>

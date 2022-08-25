@@ -35,7 +35,7 @@
           <td>{{ character.species }}</td>
           <td>{{ character.episode[character.episode.length-1].episode }}</td>
           <td v-if="favs.getFavourites().indexOf(character.id) === -1"><button type="button" class="dropbtn rounded" v-on:click="favs.addFavourite(character.id)">&#9829;</button></td>
-          <td v-else><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="favs.deleteFavourite(character.id)">X</button></td>
+          <td v-else><button type="button" class="dropdelbtn rounded" v-on:click="favs.deleteFavourite(character.id)">X</button></td>
         </tr>
     </template>
 
@@ -49,7 +49,7 @@
       <td>{{ resultId.character.species }}</td>
       <td>{{ resultId.character.episode[resultId.character.episode.length-1].episode }}</td>
       <td v-if="favs.getFavourites().indexOf(resultId.character.id) === -1"><button type="button" class="dropbtn rounded" v-on:click="favs.addFavourite(resultId.character.id)">&#9829;</button></td>
-      <td v-else><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="favs.deleteFavourite(resultId.character.id)">X</button></td>
+      <td v-else><button type="button" class="dropdelbtn rounded" v-on:click="favs.deleteFavourite(resultId.character.id)">X</button></td>
     </tr>
 
     <template v-else-if="buttonClicked.episode && resultEpisode && resultEpisode.episode.characters">
@@ -63,7 +63,7 @@
         <td>{{ character.species }}</td>
         <td>{{ character.episode[character.episode.length-1].episode }}</td>
         <td v-if="favs.getFavourites().indexOf(character.id) === -1"><button type="button" class="dropbtn rounded" v-on:click="favs.addFavourite(character.id)">&#9829;</button></td>
-        <td v-else><button type="button" class="dropbtn rounded" style ="background-color: #FF0F0F;" v-on:click="favs.deleteFavourite(character.id)">X</button></td>
+        <td v-else><button type="button" class="dropdelbtn rounded" v-on:click="favs.deleteFavourite(character.id)">X</button></td>
       </tr>
     </template>
 

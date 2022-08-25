@@ -1,6 +1,7 @@
 # rick-and-morty-app
-
-## Project setup
+## Customize configuration
+[Deployed App](https://rickandmortydg.netlify.app/).
+### Project setup
 ```
 npm install
 ```
