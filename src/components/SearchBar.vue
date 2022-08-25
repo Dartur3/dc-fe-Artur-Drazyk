@@ -1,21 +1,20 @@
 <template>
   <div>
     <div class="dropdown">
-      <button v-if="buttonClicked.name" v-on:click="toggleContent()" type="button" class="dropbtn static-width">name</button>
-      <button v-else-if="buttonClicked.id" v-on:click="toggleContent()" type="button" class="dropbtn static-width">id</button>
-      <button v-else-if="buttonClicked.episode" v-on:click="toggleContent()" type="button" class="dropbtn static-width">episode</button>
-      <button v-else v-on:click="toggleContent()" type="button" class="dropbtn static-width">select &#9660;</button>
+      <button v-if="buttonClicked.name" v-on:click="toggleContent()" type="button" class="dropbtn static-width">Name</button>
+      <button v-else-if="buttonClicked.id" v-on:click="toggleContent()" type="button" class="dropbtn static-width">ID</button>
+      <button v-else-if="buttonClicked.episode" v-on:click="toggleContent()" type="button" class="dropbtn static-width">Episode</button>
       <div id="myDropdown" class="dropdown-content">
-        <a href="#" v-on:click="buttonClicked.name = true, buttonClicked.id = false, buttonClicked.episode = false">name</a>
-        <a href="#" v-on:click=" buttonClicked.name = false, buttonClicked.id = true, buttonClicked.episode = false">id</a>
-        <a href="#" v-on:click=" buttonClicked.name = false, buttonClicked.id = false, buttonClicked.episode = true">episode</a>
+        <a href="#" v-on:click="buttonClicked.name = true, buttonClicked.id = false, buttonClicked.episode = false">Name</a>
+        <a href="#" v-on:click=" buttonClicked.name = false, buttonClicked.id = true, buttonClicked.episode = false">ID</a>
+        <a href="#" v-on:click=" buttonClicked.name = false, buttonClicked.id = false, buttonClicked.episode = true">Episode</a>
       </div>
     </div>
-    <input type="text" placeholder="input text" class="dropbtn" v-model=input>
+    <input type="text" placeholder="Input Text" class="dropbtn" style="border-radius: 10px 10px 10px 10px;" v-model=input>
     <button v-on:click="
     $emit('pass-search-bar-data', { name: buttonClicked.name, id: buttonClicked.id, episode: buttonClicked.episode, input, page }),
     $emit('initialize-input'),
-    input = ''" type="button" class="dropbtn" style="border-radius: 0px 10px 10px 0px; margin-right: 20px;"> execute </button>
+    input = ''" type="button" class="dropbtn" style="margin-right: 20px;"> Execute </button>
   </div>
 </template>
 
@@ -40,7 +39,7 @@ export default defineComponent({
     return {
       page: 1,
       input: '',
-      buttonClicked: { name: false, id: false, episode: false }
+      buttonClicked: { name: true, id: false, episode: false }
     }
   },
 
@@ -95,7 +94,6 @@ export default defineComponent({
 
 .static-width {
   width: 94px;
-  border-radius: 10px 0px 0px 10px;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -142,8 +140,9 @@ export default defineComponent({
     filter: blur(2px);
 }
 
-.rounded {
+button {
   border-radius: 10px 10px 10px 10px;
+  margin: 15px;
 }
 
 img {

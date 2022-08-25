@@ -1,5 +1,5 @@
 <template>
-  <router-link class="dropbtn rounded" style="margin-right: 20px;" to="/">Home</router-link>
+  <router-link class="dropbtn static-width" style="border-radius: 10px 10px 10px 10px;" to="/">Home</router-link>
   <SearchBar v-on:pass-search-bar-data="passSearchBarData" style="display: inline-block;"/>
   <div v-if="isFavourites()">
 

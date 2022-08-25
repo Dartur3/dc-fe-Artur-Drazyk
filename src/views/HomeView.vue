@@ -1,14 +1,12 @@
 <template>
   
-  <router-link class="dropbtn rounded" style="margin-right: 20px;" to="/favourites">Favourites</router-link>
+  <router-link class="dropbtn static-width" style="margin-right: auto; border-radius: 10px 10px 10px 10px;" to="/favourites">Favourites</router-link>
   <SearchBar v-on:pass-search-bar-data="passSearchBarData" v-on:initialize-input="setName(id.name), setNameAndEpisodeId(id.nameAndEpisodeId), setPage(page)" style="display: inline-block;"/>
 
-  <div style="display: inline-block;">
-    <button v-if="page > 1" type="button" class="dropbtn" style="border-radius: 10px 0px 0px 10px;" v-on:click="setPage(--page)">	&#9664; </button>
-    <button v-else type="button" class="dropbtn" style="border-radius: 10px 0px 0px 10px;">	&#9664; </button>
-    <button v-if="resultNames && resultNames.characters.info && page < resultNames.characters.info.count / 20" type="button" class="dropbtn" style="border-radius: 0px 10px 10px 0px;" v-on:click="setPage(++page)"> &#9654; </button>
-    <button v-else type="button" class="dropbtn" style="border-radius: 0px 10px 10px 0px;"> &#9654; </button>
-  </div>
+    <button v-if="page > 1" type="button" class="dropbtn" style="margin-left: auto;" v-on:click="setPage(--page)">	&#9664; </button>
+    <button v-else type="button" class="dropbtn" style="margin-left: auto;">	&#9664; </button>
+    <button v-if="resultNames && resultNames.characters.info && page < resultNames.characters.info.count / 20" type="button" class="dropbtn" v-on:click="setPage(++page)"> &#9654; </button>
+    <button v-else type="button" class="dropbtn"> &#9654; </button>
 
   <p v-if="errorNames || errorId || errorEpisode">Something went wrong...</p>
   <p v-else-if="loadingNames || loadingId || loadingEpisode">Loading...</p>
@@ -69,10 +67,10 @@
 
   </table>
 
-  <button v-if="page > 1" type="button" class="dropbtn" style="border-radius: 10px 0px 0px 10px; margin-top: 10px;" v-on:click="setPage(--page)">	&#9664; </button>
-  <button v-else type="button" class="dropbtn" style="border-radius: 10px 0px 0px 10px; margin-top: 10px;">	&#9664; </button>
-  <button v-if="resultNames && resultNames.characters.info && page < resultNames.characters.info.count / 20" type="button" class="dropbtn" style="border-radius: 0px 10px 10px 0px; margin-top: 10px;" v-on:click="setPage(++page)"> &#9654; </button>
-  <button v-else type="button" class="dropbtn" style="border-radius: 0px 10px 10px 0px; margin-top: 10px;"> &#9654; </button>
+  <button v-if="page > 1" type="button" class="dropbtn" style="margin-top: 10px;" v-on:click="setPage(--page)">	&#9664; </button>
+  <button v-else type="button" class="dropbtn" style="margin-top: 10px;">	&#9664; </button>
+  <button v-if="resultNames && resultNames.characters.info && page < resultNames.characters.info.count / 20" type="button" class="dropbtn" style="margin-top: 10px;" v-on:click="setPage(++page)"> &#9654; </button>
+  <button v-else type="button" class="dropbtn" style="margin-top: 10px;"> &#9654; </button>
 
 </template>
 
