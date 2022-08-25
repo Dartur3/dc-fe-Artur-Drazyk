@@ -1,6 +1,8 @@
 # rick-and-morty-app
+
+[Deployed App](https://rickandmortydg.netlify.app/)
 ##
-[Deployed App](https://rickandmortydg.netlify.app/).
+
 ### Project setup
 ```
 npm install
